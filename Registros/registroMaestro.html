@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Maestro</title>
+    <link rel="stylesheet" href="../css/styleRegistroOpciones.css">
+    <link rel="stylesheet" href="../css/registroUsuarios.css">
+
+</head>
+
+<body>
+    <header class="top-bar">
+        <div class="logo-area">
+            <a href="../index.php">
+                <img src="../img/Logo.png" alt="School System Logo" class="logo-small">
+            </a>
+        </div>
+        <div class="role-selection">
+            <label><input type="radio" name="rol" value="admin"> <strong>Administrador</strong></label>
+            <label><input type="radio" name="rol" value="alumno"> <strong>Alumno</strong></label>
+            <label><input type="radio" name="rol" value="maestro"> <strong>Maestro</strong></label>
+        </div>
+        <div class="derecha">
+        </div>
+    </header>
+
+    <div class="form-container">
+        <form action="../PHP/registroMaestro.php" method="POST">
+
+            <label for="nombre">No.Colaborador</label>
+            <input type="text" id="noColaborador" name="noColaborador" required>
+
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellidoP">Apellido Paterno</label>
+            <input type="text" id="apellidoP" name="apellidoP" required>
+
+            <label for="apellidoM">Apellido Materno</label>
+            <input type="text" id="apellidoM" name="apellidoM" required>
+
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <label for="fechaNacimiento">Fecha de nacimiento</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+            <div class="button-container">
+                <button type="reset" class="btn btn-clear">Borrar</button>
+                <button type="submit" class="btn btn-register">Registrarse</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../js/rolSeleccionado.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
