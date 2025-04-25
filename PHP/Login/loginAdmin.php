@@ -8,7 +8,7 @@ $username = $_POST['correo'];
 $password = $_POST['password'];
 
 // 3. Consultar en la base de datos
-$sql = "SELECT * FROM administrador WHERE CORREO = ?";
+$sql = "SELECT * FROM alumno WHERE CORREO = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
