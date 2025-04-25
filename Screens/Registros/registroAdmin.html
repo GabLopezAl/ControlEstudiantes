@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Alumno</title>
-    <link rel="stylesheet" href="../css/styleRegistroOpciones.css">
-    <link rel="stylesheet" href="../css/registroUsuarios.css">
+    <title>Registro Administrador</title>
+    <link rel="stylesheet" href="../../css/styleRegistroOpciones.css">
+    <link rel="stylesheet" href="../../css/registroUsuarios.css">
 
 </head>
 
 <body>
     <header class="top-bar">
         <div class="logo-area">
-            <a href="../index.php">
-                <img src="../img/Logo.png" alt="School System Logo" class="logo-small">
+            <a href="../../index.php">
+                <img src="../../img/Logo.png" alt="School System Logo" class="logo-small">
             </a>
         </div>
         <div class="role-selection">
@@ -27,10 +27,7 @@
     </header>
 
     <div class="form-container">
-        <form action="../PHP/registroAlumno.php" method="POST">
-
-            <label for="nombre">Matricula</label>
-            <input type="text" id="matricula" name="matricula" required>
+        <form action="../../PHP/Registros/registroAdmin.php" method="POST">
 
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -47,8 +44,24 @@
             <label for="fechaNacimiento">Fecha de nacimiento</label>
             <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
 
-            <label for="nombre">Edad</label>
-            <input type="text" id="edad" name="edad" required>
+            <label for="password">Contraseña</label>
+            <div style="position: relative; width: 100%;">
+                <input type="password" id="password" name="password" required style="
+              width: 100%;
+              padding: 10px 40px 10px 10px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+              box-sizing: border-box;
+            ">
+                <span id="togglePassword" onclick="togglePassword()" style="
+              position: absolute;
+              right: 5px;
+              top: 38%;
+              transform: translateY(-50%);
+              cursor: pointer;
+              font-size: 20px;
+            ">🔒</span>
+            </div>
 
             <div class="button-container">
                 <button type="reset" class="btn btn-clear">Borrar</button>
@@ -56,9 +69,10 @@
             </div>
         </form>
     </div>
+    <script src="../../js/rolSeleccionado.js"></script>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/eyeIcon.js"></script>
 
-    <script src="../js/rolSeleccionado.js"></script>
-    <script src="../js/script.js"></script>
 </body>
 
 </html>

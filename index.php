@@ -16,20 +16,38 @@
 
     <div class="login-box">
       <h2>LOGIN</h2>
-      <form action="PHP/conexion.php" method="POST">
+      <form action="PHP/Login/loginAdmin.php" method="POST">
         <label for="correo">Correo</label>
         <input type="email" id="correo" name="correo" required>
 
         <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" required>
+        <div style="position: relative; width: 100%;">
+            <input type="password" id="password" name="password" required style="
+              width: 100%;
+              padding: 10px 40px 10px 10px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+              box-sizing: border-box;
+            ">
+            <span id="togglePassword" onclick="togglePassword()" style="
+              position: absolute;
+              right: 5px;
+              top: 33%;
+              transform: translateY(-50%);
+              cursor: pointer;
+              font-size: 20px;
+            ">🔒</span>
+          </div>
+
 
         <button type="submit" href="#" class="alineacion">Iniciar Sesion</button>
-        <a href="Registros/registroOpciones.html" class="register-link">Registrarse</a>
+        <a href="Screens/Registros/registroOpciones.html" class="register-link">Registrarse</a>
       </form>
     </div>
   </div>
 
-  <?php require 'PHP/conexion.php'; ?>
+  <?php require 'PHP/Conexion/conexion.php'; ?>
+  <script src="js/eyeIcon.js"></script>
 </body>
 
 </html>
