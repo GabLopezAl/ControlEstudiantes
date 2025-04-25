@@ -20,6 +20,8 @@ if ($resultado->num_rows === 1) {
     // 4. Verificar contraseña
     if ($password == $usuario['CONTRASEÑA']) {
         $_SESSION['correo'] = $usuario['CORREO']; // Guardar sesión
+        $_SESSION['NOMBRE'] = $usuario['NOMBRE']; // Obtiene nombre del usuario
+        $_SESSION['MATRICULA'] = $usuario['MATRICULA']; // Obtiene la matricula del estudiante
         header("Location: ../../Screens/Alumno/Asistencias.php");
         exit();
     } else {

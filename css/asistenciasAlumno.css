@@ -30,8 +30,16 @@ nav a {
   font-weight: bold;
 }
 
+nav a.active {
+  background-color: #626F47;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+
 nav a:hover {
-  color: #626F47;
+  color: white;
 }
 
 .user-section {
@@ -49,7 +57,7 @@ nav a:hover {
   position: absolute;
   top: 60px;
   right: 0;
-  background-color: #e0e6d9;
+  background-color: #9eb38f;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
@@ -58,11 +66,11 @@ nav a:hover {
   display: block;
   padding: 10px;
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
-.user-section:hover .dropdown {
-  display: block;
+.cursor:hover {
+  background-color: 626F47;
 }
 
 .welcome {

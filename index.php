@@ -16,7 +16,7 @@
 
     <div class="login-box">
       <h2>LOGIN</h2>
-      <form action="PHP/Login/loginAdmin.php" method="POST">
+      <form action="PHP/Login/loginAlumno.php" method="POST">
         <label for="correo">Correo</label>
         <input type="email" id="correo" name="correo" required>
 
