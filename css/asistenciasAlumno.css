@@ -115,8 +115,8 @@ th {
 }
 
 @media (max-width: 600px) {
-  nav a {
+  /* nav a {
     display: block;
     margin: 0.5rem 0;
-  }
+  } */
 }

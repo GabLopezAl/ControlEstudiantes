@@ -9,7 +9,7 @@ require '../../PHP/Conexion/conexion.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio</title>
+  <title>Asistencias</title>
   <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=1.1">
 </head>
 <body>
@@ -29,7 +29,7 @@ require '../../PHP/Conexion/conexion.php';
         </a>
       </div>
       <div class="dropdown" id="dropdownMenu">
-        <a class="cursor" href="editar_datos.php">Editar datos</a>
+        <a class="cursor" href="editarDatos.php">Editar datos</a>
         <a class="cursor" href="../../index.php">Cerrar sesión</a>
       </div>
     </div>
@@ -46,17 +46,14 @@ require '../../PHP/Conexion/conexion.php';
       } else {
         $query = "SELECT 
                     m.NOMBRE,
-                    h.DIA_SEMANA,
-                    SUM(h.ASISTENCIAS) AS ASISTENCIAS_DIA,
-                    mat.ASISTENCIAS_TOTALES
-                  FROM horario h
-                  JOIN materia m ON h.NRC_MATERIA = m.NRC
-                  JOIN alumno a ON h.MATRICULA_ESTUDIANTE = a.MATRICULA
-                  JOIN maestro ma ON h.NO_COLABORADOR = ma.NO_COLABORADOR
-                  JOIN materia mat ON h.NRC_MATERIA = mat.NRC AND h.MATRICULA_ESTUDIANTE = mat.MATRICULA_ESTUDIANTE
-                  WHERE h.MATRICULA_ESTUDIANTE = ?
-                  GROUP BY m.NOMBRE, h.DIA_SEMANA, mat.ASISTENCIAS_TOTALES
-                  ORDER BY m.NOMBRE, FIELD(h.DIA_SEMANA, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')";
+                    a.DIA_SEMANA,
+                    SUM(a.ASISTENCIA) AS ASISTENCIAS_DIA,
+                    m.ASISTENCIAS_TOTALES
+                  FROM asistencia a
+                  JOIN materia m ON a.NRC_MATERIA = m.NRC AND a.MATRICULA_ESTUDIANTE = m.MATRICULA_ESTUDIANTE
+                  WHERE a.MATRICULA_ESTUDIANTE = ?
+                  GROUP BY m.NOMBRE, a.DIA_SEMANA, m.ASISTENCIAS_TOTALES
+                  ORDER BY m.NOMBRE, FIELD(a.DIA_SEMANA, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')";
       
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $matricula);
