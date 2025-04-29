@@ -9,7 +9,10 @@ require '../../PHP/Headers/Alumno.php';
         $matricula = $_SESSION['MATRICULA'];
 
       // 3. Consulta para traer las materias del alumno
-        $sql = "SELECT NOMBRE, CALIFICACION, CREDITOS FROM materia WHERE MATRICULA_ESTUDIANTE = ?";
+        $sql = "SELECT m.NOMBRE, c.CALIFICACION, m.CREDITOS 
+                FROM materia m
+                INNER JOIN calificacion c ON m.NRC = c.NRC_MATERIA
+                WHERE c.MATRICULA_ESTUDIANTE = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $matricula);
         $stmt->execute();

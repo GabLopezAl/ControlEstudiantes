@@ -22,7 +22,7 @@ require '../../PHP/Headers/Alumno.php';
                     SUM(a.ASISTENCIA) AS ASISTENCIAS_DIA,
                     m.ASISTENCIAS_TOTALES
                   FROM asistencia a
-                  JOIN materia m ON a.NRC_MATERIA = m.NRC AND a.MATRICULA_ESTUDIANTE = m.MATRICULA_ESTUDIANTE
+                  JOIN materia m ON a.NRC_MATERIA = m.NRC
                   WHERE a.MATRICULA_ESTUDIANTE = ?
                   GROUP BY m.NOMBRE, a.DIA_SEMANA, m.ASISTENCIAS_TOTALES
                   ORDER BY m.NOMBRE, FIELD(a.DIA_SEMANA, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')";

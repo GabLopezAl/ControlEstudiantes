@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asistencias alumnos</title>
   <?php if ($pagina == 'Asistencias.php'): ?>
-    <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=1.1">
+    <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=2.2">
   <?php elseif ($pagina == 'Calificaciones.php'): ?>
       <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=1.1">
   <?php elseif ($pagina == 'Horario.php'): ?>
