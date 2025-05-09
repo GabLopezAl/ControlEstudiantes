@@ -66,6 +66,23 @@ if ($maestro->num_rows === 1) {
     echo "Usuario no encontrado";
 }
 
+if ($admin->num_rows === 1) {
+    $usuario = $admin->fetch_assoc();
+
+    // 4. Verificar contraseña
+    if ($password == $usuario['CONTRASENA']) {
+        $_SESSION['correo'] = $usuario['CORREO']; // Guardar sesión
+        $_SESSION['NOMBRE'] = $usuario['NOMBRE']; // Obtiene nombre del usuario
+        $_SESSION['ID'] = $usuario['ID']; // Obtiene el id del admin
+        header("Location: ../../Screens/Admin/Asistencias.php");
+        exit();
+    } else {
+        echo "Contraseña incorrecta";
+    }
+} else {
+    echo "Usuario no encontrado";
+}
+
 $conn->close();
 ?>
 
