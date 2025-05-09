@@ -11,7 +11,7 @@ $contraseña = $_POST['password'];
 $rol = 'administrador';
 
 // Insertar datos en la base de datos
-$sql = "INSERT INTO administrador (NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CORREO, FECHA_NACIMIENTO, CONTRASEÑA,ROL)
+$sql = "INSERT INTO administrador (NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CORREO, FECHA_NACIMIENTO, CONTRASENA,ROL)
         VALUES ('$nombre', '$apellidoP', '$apellidoM', '$correo', '$fechaNacimiento', '$contraseña', '$rol')";
 
 if ($conn->query($sql) === TRUE) {

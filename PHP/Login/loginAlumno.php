@@ -22,7 +22,7 @@ $stmt1->execute();
 $maestro = $stmt1->get_result();
 
 // 3. Consultar en la base de datos admin
-$sql2 = "SELECT * FROM maestro WHERE CORREO = ?";
+$sql2 = "SELECT * FROM administrador WHERE CORREO = ?";
 $stmt2 = $conn->prepare($sql2);
 $stmt2->bind_param("s", $username);
 $stmt2->execute();
@@ -40,10 +40,10 @@ if ($alumno->num_rows === 1) {
         exit();
     } else {
         echo "Contraseña incorrecta";
-        echo "<br>";
-        echo $password;
-        echo "<br>";
-        echo $usuario['CONTRASEÑA'];
+        // echo "<br>";
+        // echo $password;
+        // echo "<br>";
+        // echo $usuario['CONTRASEÑA'];
     }
 } else {
     echo "Usuario no encontrado";
