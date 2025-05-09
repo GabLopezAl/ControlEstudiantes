@@ -61,7 +61,7 @@ require '../../PHP/Headers/Maestro.php';
         </select>
 
         <br><br>
-        <button type="submit" name="buscar" class="botonAsistencias">Buscar Asistencias</button>
+        <button type="submit" name="buscar" class="botonAsistencias">Mostrar Asistencias</button>
         <button type="submit" name="asignar" class="botonAsistencias">Asignar Asistencias</button>
         <button type="submit" name="editar" class="botonAsistencias">Editar Asistencias</button>
     </form>
@@ -116,16 +116,16 @@ require '../../PHP/Headers/Maestro.php';
     ?>
         <div style="margin-top: 40px; text-align: center;">
             <h2>Asistencias de <?= htmlspecialchars($nombreAlumno) ?> en la materia de <?= htmlspecialchars($nombreMateria) ?></h2>
-            <table>
+            <table style='margin: 20px auto; border-collapse: collapse; width: 60%; text-align: center;'>
                 <thead>
-                    <tr>
-                        <th>Día de la semana</th>
-                        <th>Asistencias</th>
+                    <tr style='background-color: #f2f2f2;'>
+                        <th style='padding: 10px; border: 1px solid #ccc;'>Día de la semana</th>
+                        <th style='padding: 10px; border: 1px solid #ccc;'>Asistencias</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($asistencias as $asistencia) { ?>
-                        <tr>
+                        <tr style='background-color: #f2f2f2;'>
                             <td><?= htmlspecialchars($asistencia['DIA_SEMANA']) ?></td>
                             <td><?= htmlspecialchars($asistencia['asistencias_dia']) ?></td>
                         </tr>
@@ -243,16 +243,16 @@ require '../../PHP/Headers/Maestro.php';
                     <input type="hidden" name="matricula" value="<?= htmlspecialchars($matricula) ?>">
                     <input type="hidden" name="nrc" value="<?= htmlspecialchars($nrc) ?>">
         
-                    <table style="margin: 0 auto;">
+                    <table style='margin: 20px auto; border-collapse: collapse; width: 60%; text-align: center;'>
                         <thead>
-                            <tr>
-                                <th>Día de la semana</th>
-                                <th>Asistencias</th>
+                            <tr style='background-color: #f2f2f2;'>
+                                <th style='padding: 10px; border: 1px solid #ccc;'>Día de la semana</th>
+                                <th style='padding: 10px; border: 1px solid #ccc;'>Asistencias</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($asistencias as $asistencia) { ?>
-                                <tr>
+                                <tr style='background-color: #f2f2f2;'>
                                     <td><?= htmlspecialchars($asistencia['DIA_SEMANA']) ?></td>
                                     <td>
                                         <input type="number" name="asistencias_editadas[<?= $asistencia['ID'] ?>]" 
