@@ -9,7 +9,7 @@
   <?php elseif ($pagina == 'Calificaciones.php'): ?>
       <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
   <?php elseif ($pagina == 'Horario.php'): ?>
-      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=1.1">
+      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
   <?php endif; ?>
 </head>
 <body>
@@ -21,9 +21,9 @@
       <a href="Asistencias.php" class="<?= $pagina == 'Asistencias.php' ? 'active' : '' ?>">Asistencias</a>
       <a href="Calificaciones.php" class="<?= $pagina == 'Calificaciones.php' ? 'active' : '' ?>">Calificaciones</a>
       <a href="Horario.php" class="<?= $pagina == 'Horario.php' ? 'active' : '' ?>">Horarios</a>
-      <a href="Horario.php" class="<?= $pagina == 'Horario.php' ? 'active' : '' ?>">Materias</a>
-      <a href="Horario.php" class="<?= $pagina == 'Horario.php' ? 'active' : '' ?>">Alumnos</a>
-      <a href="Horario.php" class="<?= $pagina == 'Horario.php' ? 'active' : '' ?>">Maestros</a>
+      <a href="Materias.php" class="<?= $pagina == 'Materias.php' ? 'active' : '' ?>">Materias</a>
+      <a href="Alumnos.php" class="<?= $pagina == 'Alumnos.php' ? 'active' : '' ?>">Alumnos</a>
+      <a href="Maestros.php" class="<?= $pagina == 'Maestros.php' ? 'active' : '' ?>">Maestros</a>
     </nav>
     <div class="user-section" id="userToggle">
       <div>
