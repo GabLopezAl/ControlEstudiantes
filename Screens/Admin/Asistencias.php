@@ -20,7 +20,10 @@ require '../../PHP/Headers/Admin.php';
   $materias = [];
   if (isset($_POST['matricula']) && !empty($_POST['matricula'])) {
       $matricula = $_POST['matricula'];
-      $queryMaterias = "SELECT DISTINCT NRC, NOMBRE FROM materia WHERE MATRICULA_ESTUDIANTE = ?";
+      $queryMaterias = "SELECT DISTINCT m.NRC, m.NOMBRE 
+                      FROM materia m 
+                      INNER JOIN asistencia a ON a.NRC_MATERIA = m.NRC 
+                      WHERE a.MATRICULA_ESTUDIANTE = ?";
       $stmtMaterias = $conn->prepare($queryMaterias);
       $stmtMaterias->bind_param("s", $matricula);
       $stmtMaterias->execute();
@@ -67,17 +70,16 @@ require '../../PHP/Headers/Admin.php';
 
           if (isset($_POST['buscar'])) {
 
-            $query = "SELECT DIA_SEMANA, COUNT(*) AS ASISTENCIAS 
+            $query = "SELECT DIA_SEMANA, SUM(ASISTENCIA) AS ASISTENCIAS 
                         FROM asistencia 
                         WHERE MATRICULA_ESTUDIANTE = ? 
                         AND NRC_MATERIA = ? 
-                        AND ASISTENCIA = 1 
                         GROUP BY DIA_SEMANA";
               $stmt = $conn->prepare($query);
               $stmt->bind_param("ss", $matricula, $nrc);
               $stmt->execute();
               $resultado = $stmt->get_result();
-
+ 
               // Obtener asistencias totales de la materia
               $queryTotal = "SELECT ASISTENCIAS_TOTALES FROM materia WHERE NRC = ?";
               $stmtTotal = $conn->prepare($queryTotal);

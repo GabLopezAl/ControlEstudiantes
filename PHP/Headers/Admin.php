@@ -10,6 +10,8 @@
       <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
   <?php elseif ($pagina == 'Horario.php'): ?>
       <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
+  <?php elseif ($pagina == 'Materia.php'): ?>
+      <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=3.4">
   <?php endif; ?>
 </head>
 <body>
@@ -21,7 +23,7 @@
       <a href="Asistencias.php" class="<?= $pagina == 'Asistencias.php' ? 'active' : '' ?>">Asistencias</a>
       <a href="Calificaciones.php" class="<?= $pagina == 'Calificaciones.php' ? 'active' : '' ?>">Calificaciones</a>
       <a href="Horario.php" class="<?= $pagina == 'Horario.php' ? 'active' : '' ?>">Horarios</a>
-      <a href="Materias.php" class="<?= $pagina == 'Materias.php' ? 'active' : '' ?>">Materias</a>
+      <a href="Materia.php" class="<?= $pagina == 'Materia.php' ? 'active' : '' ?>">Materias</a>
       <a href="Alumnos.php" class="<?= $pagina == 'Alumnos.php' ? 'active' : '' ?>">Alumnos</a>
       <a href="Maestros.php" class="<?= $pagina == 'Maestros.php' ? 'active' : '' ?>">Maestros</a>
     </nav>

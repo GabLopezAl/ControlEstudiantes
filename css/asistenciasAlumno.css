@@ -122,7 +122,7 @@ th {
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
-  width: 100px;
+  width: 200;
 }
 
 select {
@@ -150,6 +150,36 @@ select:hover {
 select:focus {
   box-shadow: 0 0 5px rgba(72, 180, 97, 0.7);
   border-color: #45a049;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.cajasTexto {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.btn {
+    width: 48%;
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 
