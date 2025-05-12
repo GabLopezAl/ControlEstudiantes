@@ -135,163 +135,59 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             echo "<p style='color: green; text-align: center;'>'Cambios guardados correctamente.'</p>";
     }
-    
-    
-    // if (isset($_POST['asignar'])){
-    //     // Paso 1: Obtener todas las materias en las que está inscrito el alumno
-    //     $matricula = $_POST['matricula'];
-    //     $materiasQuery = "SELECT NRC, NOMBRE FROM materia WHERE MATRICULA_ESTUDIANTE = ?";
-    //     $stmtMaterias = $conn->prepare($materiasQuery);
-    //     $stmtMaterias->bind_param("s", $matricula);
-    //     $stmtMaterias->execute();
-    //     $materiasResult = $stmtMaterias->get_result();
-
-    //     // Paso 2: Obtener todos los maestros
-    //     $maestrosQuery = "SELECT NO_COLABORADOR, NOMBRE FROM maestro";
-    //     $maestrosResult = mysqli_query($conn, $maestrosQuery);
-
-    //     echo "<div style='display: flex; justify-content: center; margin-top: 30px;'>";
-    //     echo "<form method='POST'>";
-    //     echo "<input type='hidden' name='asignacion_confirmada' value='1'>";
-    //     echo "<input type='hidden' name='matricula' value='{$_POST['matricula']}'>";
-
-    //     // Día, hora inicio y fin
-    //     echo "<label>Día:</label> <input type='text' name='dia' required><br><br>";
-    //     echo "<label>Hora Inicio:</label> <input type='time' name='hora_inicio' required><br><br>";
-    //     echo "<label>Hora Fin:</label> <input type='time' name='hora_fin' required><br><br>";
-
-    //     // Selección de materia
-    //     echo "<label>Materia:</label> <select name='nrc' id='nrc' required>";
-    //     echo "<option value=''>-- Selecciona una materia --</option>";
-    //     while ($row = mysqli_fetch_assoc($materiasResult)) {
-    //         echo "<option value='{$row['NRC']}'>{$row['NOMBRE']} ({$row['NRC']})</option>";
-    //     }
-    //     echo "</select><br><br>";
-
-    //     // Selección de maestro (opcional, se usará vía JavaScript si no hay uno asignado)
-    //     echo "<div id='select_maestro_container' style='display:none'>";
-    //     echo "<label>Maestro:</label> <select name='no_colaborador'>";
-    //     echo "<option value=''>-- Selecciona un maestro --</option>";
-    //     while ($row = mysqli_fetch_assoc($maestrosResult)) {
-    //         echo "<option value='{$row['NO_COLABORADOR']}'>{$row['NOMBRE']} ({$row['NO_COLABORADOR']})</option>";
-    //     }
-    //     echo "</select></div><br><br>";
-
-    //     echo "<button type='submit' class='botonAsistencias'>Guardar Horario</button>";
-    //     echo "</form>";
-    //     echo "</div>";
-
-    //     // Script para manejar dinámicamente si mostrar el campo de maestro o no
-    //     echo "
-    //     <script>
-    //         document.getElementById('nrc').addEventListener('change', function() {
-    //             const nrc = this.value;
-    //             if (nrc === '') return;
-
-    //             fetch('verifica_maestro.php?nrc=' + nrc)
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                     if (data.asignado) {
-    //                         document.getElementById('select_maestro_container').style.display = 'none';
-    //                     } else {
-    //                         document.getElementById('select_maestro_container').style.display = 'block';
-    //                     }
-    //                 });
-    //         });
-    //     </script>";
-    // }
 
     if (isset($_POST['asignar'])) {
         $matricula = $_POST['matricula'];
 
-        // 1. Verificar si el alumno tiene materias asignadas
-        $materiasAsignadasQuery = "SELECT m.NRC, m.NOMBRE, m.NO_COLABORADOR 
-                                    FROM materia m
-                                    WHERE m.MATRICULA_ESTUDIANTE = ?";
-        $stmtMaterias = $conn->prepare($materiasAsignadasQuery);
-        $stmtMaterias->bind_param("s", $matricula);
-        $stmtMaterias->execute();
-        $materiasResult = $stmtMaterias->get_result();
+        // ✅ Obtener todas las materias sin excluir ninguna
+        $materiasQuery = "
+            SELECT m.NRC, m.NOMBRE, m.NO_COLABORADOR, ma.NOMBRE AS NOMBRE_MAESTRO
+            FROM materia m
+            LEFT JOIN maestro ma ON m.NO_COLABORADOR = ma.NO_COLABORADOR
+        ";
 
-        // 2. Obtener todas las materias si no tiene asignadas
-        if ($materiasResult->num_rows === 0) {
-            $materiasResult = $conn->query("SELECT NRC, NOMBRE, NO_COLABORADOR FROM materia");
+        $materiasResult = $conn->query($materiasQuery);
+
+        // Obtener todos los maestros
+        $maestrosQuery = "SELECT NO_COLABORADOR, NOMBRE FROM maestro";
+        $maestrosResult = $conn->query($maestrosQuery);
+
+        // Para el JS
+        $materiasJS = [];
+        $maestros = [];
+        while ($row = $maestrosResult->fetch_assoc()) {
+            $maestros[] = $row;
         }
 
-        // 3. Obtener todos los maestros disponibles
-        $maestrosResult = $conn->query("SELECT NO_COLABORADOR, NOMBRE FROM maestro");
-
-        // Mostrar formulario centrado
-        // echo "<div style='display: flex; justify-content: center; margin-top: 30px;'>";
-        // echo "<form method='POST' style='text-align: center;'>";
-
-        // echo "<input type='hidden' name='matricula' value='{$matricula}'>";
-
-        // // Materia
-        // echo "<label for='nrc'>Seleccionar Materia:</label><br>";
-        // echo "<select name='nrc' id='nrcSelect' required style='margin-bottom: 15px;'>";
-        // $materias = []; // almacenaremos aquí para uso en JS opcional si lo deseas
-        // while ($row = $materiasResult->fetch_assoc()) {
-        //     $materias[] = $row;
-        //     echo "<option value='{$row['NRC']}' data-maestro='{$row['NO_COLABORADOR']}'>{$row['NOMBRE']}</option>";
-        // }
-        // echo "</select><br><br>";
-
-        // // Maestro
-        // echo "<label for='maestro'>Seleccionar Maestro:</label><br>";
-        // echo "<select name='maestro' id='maestroSelect' required style='margin-bottom: 15px;'>";
-        // while ($row = $maestrosResult->fetch_assoc()) {
-        //     echo "<option value='{$row['NO_COLABORADOR']}'>{$row['NOMBRE']}</option>";
-        // }
-        // echo "</select><br><br>";
-
-        // // Día y horas
-        // echo "<label for='dia'>Día de la Semana:</label><br>";
-        // echo "<input type='text' name='dia' required style='margin-bottom: 15px;'><br>";
-
-        // echo "<label for='hora_inicio'>Hora de Inicio:</label><br>";
-        // echo "<input type='time' name='hora_inicio' required style='margin-bottom: 15px;'><br>";
-
-        // echo "<label for='hora_fin'>Hora de Fin:</label><br>";
-        // echo "<input type='time' name='hora_fin' required style='margin-bottom: 15px;'><br>";
-
-        // echo "<button type='submit' name='guardar_asignacion' class='botonAsistencias'>Asignar Horario</button>";
-
-        // echo "</form>";
-        // echo "</div>";
         echo "<div style='display: flex; justify-content: center; margin-top: 30px;'>";
         echo "<form method='POST' style='text-align: center;'>";
 
         echo "<input type='hidden' name='matricula' value='{$matricula}'>";
 
-        // Materia
+        // === SELECT MATERIA ===
         echo "<label for='nrc'>Seleccionar Materia:</label><br>";
         echo "<select name='nrc' id='nrcSelect' required style='margin-bottom: 15px;'>";
 
-        $materiasJS = []; // para JavaScript
         while ($row = $materiasResult->fetch_assoc()) {
-            $nrc = $row['NRC'];
-            $nombre = $row['NOMBRE'];
-            $maestro = $row['NO_COLABORADOR'];
-            echo "<option value='$nrc' data-maestro='$maestro'>$nombre</option>";
-            $materiasJS[] = ["nrc" => $nrc, "maestro" => $maestro];
+            $materiasJS[] = [
+                "nrc" => $row["NRC"],
+                "nombre" => $row["NOMBRE"],
+                "maestro_id" => $row["NO_COLABORADOR"],
+                "maestro_nombre" => $row["NOMBRE_MAESTRO"]
+            ];
+            echo "<option value='{$row["NRC"]}'>{$row["NOMBRE"]}</option>";
         }
         echo "</select><br><br>";
 
-        // Maestro
+        // === SELECT MAESTRO ===
         echo "<label for='maestro'>Seleccionar Maestro:</label><br>";
         echo "<select name='maestro' id='maestroSelect' required style='margin-bottom: 15px;'>";
-
-        $maestros = [];
-        while ($row = $maestrosResult->fetch_assoc()) {
-            $id = $row['NO_COLABORADOR'];
-            $nombre = $row['NOMBRE'];
-            echo "<option value='$id'>$nombre</option>";
-            $maestros[] = ["id" => $id, "nombre" => $nombre];
+        foreach ($maestros as $m) {
+            echo "<option value='{$m["NO_COLABORADOR"]}'>{$m["NOMBRE"]}</option>";
         }
         echo "</select><br><br>";
 
-        // Día y horas
+        // === HORARIO ===
         echo "<label for='dia'>Día de la Semana:</label><br>";
         echo "<input type='text' name='dia' required style='margin-bottom: 15px;'><br>";
 
@@ -306,24 +202,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "</form>";
         echo "</div>";
 
-        // Pasar datos al JS
+        // === JS para actualizar maestro automáticamente ===
         echo "<script>
             const materias = " . json_encode($materiasJS) . ";
             const maestroSelect = document.getElementById('maestroSelect');
             const nrcSelect = document.getElementById('nrcSelect');
 
             function actualizarMaestro() {
-                const selectedNrc = nrcSelect.value;
-                const materia = materias.find(m => m.nrc === selectedNrc);
-                
-                if (materia && materia.maestro) {
-                    for (let i = 0; i < maestroSelect.options.length; i++) {
-                        if (maestroSelect.options[i].value === materia.maestro) {
-                            maestroSelect.selectedIndex = i;
-                            break;
-                        }
-                    }
-                    maestroSelect.disabled = true;
+                const nrcSeleccionado = nrcSelect.value;
+                const materia = materias.find(m => m.nrc === nrcSeleccionado);
+
+                if (materia && materia.maestro_id) {
+                    maestroSelect.value = materia.maestro_id;
+                    maestroSelect.readOnly = true; // o simplemente deja que lo seleccione sin editar si ya está asignado
                 } else {
                     maestroSelect.disabled = false;
                     maestroSelect.selectedIndex = 0;
@@ -333,47 +224,151 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             nrcSelect.addEventListener('change', actualizarMaestro);
             window.onload = actualizarMaestro;
         </script>";
-
     }
+
+    // if (isset($_POST['asignar'])) {
+    //     $matricula = $_POST['matricula'];
+
+    //     // Materias no asignadas al alumno
+    //     $materiasQuery = "
+    //         SELECT m.NRC, m.NOMBRE, m.NO_COLABORADOR, ma.NOMBRE AS NOMBRE_MAESTRO
+    //         FROM materia m
+    //         LEFT JOIN maestro ma ON m.NO_COLABORADOR = ma.NO_COLABORADOR
+    //         WHERE m.NRC NOT IN (
+    //             SELECT NRC_MATERIA 
+    //             FROM horario 
+    //             WHERE MATRICULA_ESTUDIANTE = ?
+    //         )
+    //     ";
+
+    //     $stmtMaterias = $conn->prepare($materiasQuery);
+    //     $stmtMaterias->bind_param("s", $matricula);
+    //     $stmtMaterias->execute();
+    //     $materiasResult = $stmtMaterias->get_result();
+
+    //     // Todos los maestros para el select (si es necesario)
+    //     $maestrosQuery = "SELECT NO_COLABORADOR, NOMBRE FROM maestro";
+    //     $maestrosResult = $conn->query($maestrosQuery);
+
+    //     // Guardar en arrays para JS
+    //     $materiasJS = [];
+    //     $maestros = [];
+    //     while ($row = $maestrosResult->fetch_assoc()) {
+    //         $maestros[] = $row;
+    //     }
+
+    //     echo "<div style='display: flex; justify-content: center; margin-top: 30px;'>";
+    //     echo "<form method='POST' style='text-align: center;'>";
+
+    //     echo "<input type='hidden' name='matricula' value='{$matricula}'>";
+
+    //     // === SELECT MATERIA ===
+    //     echo "<label for='nrc'>Seleccionar Materia:</label><br>";
+    //     echo "<select name='nrc' id='nrcSelect' required style='margin-bottom: 15px;'>";
+
+    //     while ($row = $materiasResult->fetch_assoc()) {
+    //         $materiasJS[] = [
+    //             "nrc" => $row["NRC"],
+    //             "nombre" => $row["NOMBRE"],
+    //             "maestro_id" => $row["NO_COLABORADOR"],
+    //             "maestro_nombre" => $row["NOMBRE_MAESTRO"]
+    //         ];
+    //         echo "<option value='{$row["NRC"]}'>{$row["NOMBRE"]}</option>";
+    //     }
+    //     echo "</select><br><br>";
+
+    //     // === SELECT MAESTRO ===
+    //     echo "<label for='maestro'>Seleccionar Maestro:</label><br>";
+    //     echo "<select name='maestro' id='maestroSelect' required style='margin-bottom: 15px;'>";
+    //     foreach ($maestros as $m) {
+    //         echo "<option value='{$m["NO_COLABORADOR"]}'>{$m["NOMBRE"]}</option>";
+    //     }
+    //     echo "</select><br><br>";
+
+    //     // === CAMPOS DE HORARIO ===
+    //     echo "<label for='dia'>Día de la Semana:</label><br>";
+    //     echo "<input type='text' name='dia' required style='margin-bottom: 15px;'><br>";
+
+    //     echo "<label for='hora_inicio'>Hora de Inicio:</label><br>";
+    //     echo "<input type='time' name='hora_inicio' required style='margin-bottom: 15px;'><br>";
+
+    //     echo "<label for='hora_fin'>Hora de Fin:</label><br>";
+    //     echo "<input type='time' name='hora_fin' required style='margin-bottom: 15px;'><br>";
+
+    //     echo "<button type='submit' name='guardar_asignacion' class='botonAsistencias'>Asignar Horario</button>";
+
+    //     echo "</form>";
+    //     echo "</div>";
+
+    //     // === JS PARA ACTUALIZAR MAESTRO AUTOMÁTICAMENTE ===
+    //     echo "<script>
+    //         const materias = " . json_encode($materiasJS) . ";
+    //         const maestros = " . json_encode($maestros) . ";
+
+    //         const maestroSelect = document.getElementById('maestroSelect');
+    //         const nrcSelect = document.getElementById('nrcSelect');
+
+    //         function actualizarMaestro() {
+    //             const nrcSeleccionado = nrcSelect.value;
+    //             const materia = materias.find(m => m.nrc === nrcSeleccionado);
+
+    //             if (materia && materia.maestro_id) {
+    //                 // Ya tiene maestro asignado
+    //                 maestroSelect.value = materia.maestro_id;
+    //                 maestroSelect.disabled = true;
+    //             } else {
+    //                 // Sin maestro, permitir seleccionar
+    //                 maestroSelect.disabled = false;
+    //                 maestroSelect.selectedIndex = 0;
+    //             }
+    //         }
+
+    //         nrcSelect.addEventListener('change', actualizarMaestro);
+    //         window.onload = actualizarMaestro;
+    //     </script>";
+    // }
 
 
     if (isset($_POST['guardar_asignacion'])) {
+        $maestro = $_POST['maestro'] ?? null;
         $dia = $_POST['dia'];
         $hora_inicio = $_POST['hora_inicio'];
         $hora_fin = $_POST['hora_fin'];
         $nrc = $_POST['nrc'];
         $matricula = $_POST['matricula'];
 
-        // Verificamos si ya hay un maestro asignado
-        $stmt = $conn->prepare("SELECT NO_COLABORADOR FROM materia WHERE NRC = ?");
-        $stmt->bind_param("s", $nrc);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $no_colaborador = $row['NO_COLABORADOR'];
-
-        if (!$no_colaborador && isset($_POST['no_colaborador']) && $_POST['no_colaborador'] !== '') {
-            $no_colaborador = $_POST['no_colaborador'];
-        }
-
-        if ($no_colaborador) {
+        if ($maestro) {
+            // Insertar en horario
             $insert = "INSERT INTO horario (DIA_SEMANA, HORA_INICIO, HORA_FIN, MATRICULA_ESTUDIANTE, NO_COLABORADOR, NRC_MATERIA)
                     VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insert);
-            $stmt->bind_param("ssssss", $dia, $hora_inicio, $hora_fin, $matricula, $no_colaborador, $nrc);
+            $stmt->bind_param("ssssss", $dia, $hora_inicio, $hora_fin, $matricula, $maestro, $nrc);
             $stmt->execute();
 
-            // Actualizar maestro en materia solo si no tiene uno asignado aún
-            $updateMateria = "UPDATE materia SET NO_COLABORADOR = ? WHERE NRC = ? AND NO_COLABORADOR IS NULL";
-            $stmt2 = $conn->prepare($updateMateria);
-            $stmt2->bind_param("ss", $maestro, $nrc);
-            $stmt2->execute();
+            // Insertar en calificacion SOLO SI no existe
+            $check = $conn->prepare("SELECT 1 FROM calificacion WHERE NRC_MATERIA = ? AND MATRICULA_ESTUDIANTE = ? AND NO_COLABORADOR = ?");
+            $check->bind_param("sss", $nrc, $matricula, $maestro);
+            $check->execute();
+            $check->store_result();
+            if ($check->num_rows === 0) {
+                $insertCal = $conn->prepare("INSERT INTO calificacion (NRC_MATERIA, MATRICULA_ESTUDIANTE, NO_COLABORADOR, CALIFICACION) VALUES (?, ?, ?, NULL)");
+                $insertCal->bind_param("sss", $nrc, $matricula, $maestro);
+                $insertCal->execute();
+            }
 
-            echo "<p style='color: green; text-align: center;'>Horario asignado correctamente.</p>";
+            // Insertar SIEMPRE en asistencia con 0 asistencias (permitiendo edición posterior)
+            $insertAsist = $conn->prepare("INSERT INTO asistencia (NRC_MATERIA, MATRICULA_ESTUDIANTE, NO_COLABORADOR, DIA_SEMANA, ASISTENCIA)
+                                        VALUES (?, ?, ?, ?, 0)");
+            $insertAsist->bind_param("ssss", $nrc, $matricula, $maestro, $dia);
+            $insertAsist->execute();
+
+            echo "<p style='color: green; text-align: center;'>Horario registrado correctamente.</p>";
         } else {
-            echo "<p style='color: red; text-align: center;'>Error: No se puede asignar horario sin maestro.</p>";
+            echo "<p style='color: red; text-align: center;'>Error: Maestro no definido correctamente.</p>";
         }
     }
+
+
 
 }
 ?>

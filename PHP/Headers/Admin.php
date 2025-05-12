@@ -11,7 +11,11 @@
   <?php elseif ($pagina == 'Horario.php'): ?>
       <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
   <?php elseif ($pagina == 'Materia.php'): ?>
-      <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=3.4">
+      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=4.4">
+  <?php elseif ($pagina == 'Alumnos.php'): ?>
+      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=4.5">
+  <?php elseif ($pagina == 'Maestros.php'): ?>
+      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=4.5">
   <?php endif; ?>
 </head>
 <body>

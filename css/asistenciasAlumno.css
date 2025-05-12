@@ -125,6 +125,17 @@ th {
   width: 200;
 }
 
+.botonMaterias {
+  background-color: #7a9b32;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 200;
+}
+
 select {
   width: 250px;
   padding: 10px;
