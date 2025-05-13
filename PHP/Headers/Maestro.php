@@ -7,9 +7,9 @@
   <?php if ($pagina == 'Asistencias.php'): ?>
     <link rel="stylesheet" href="../../css/asistenciasAlumno.css?v=2.2">
   <?php elseif ($pagina == 'Calificaciones.php'): ?>
-      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
+      <link rel="stylesheet" href="../../css/horarioAlumno.css?v=4.4">
   <?php elseif ($pagina == 'Horario.php'): ?>
-      <link rel="stylesheet" href="../../css/calificacionesAlumno.css?v=2.2">
+      <link rel="stylesheet" href="../../css/horarioAlumno.css?v=2.2">
   <?php endif; ?>
 </head>
 <body>

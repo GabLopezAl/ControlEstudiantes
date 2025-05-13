@@ -92,7 +92,7 @@ require '../../PHP/Conexion/conexion.php';
 
             <div class="button-container">
                 <button type="reset" class="btn btn-clear">Borrar</button>
-                <button type="submit" class="btn btn-register">Registrarse</button>
+                <button type="submit" class="btn btn-register">Actualizar</button>
             </div>
         </form>
     </div>

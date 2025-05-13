@@ -112,6 +112,44 @@ th {
     background-color: #d3d4d6;
 }
 
+select {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #9eb38f;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    appearance: none;
+    /* Quitar la flecha por defecto en algunos navegadores */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%234CAF50" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+select:hover {
+    border-color: #45a049;
+}
+
+select:focus {
+    box-shadow: 0 0 5px rgba(72, 180, 97, 0.7);
+    border-color: #45a049;
+}
+
+.botonAsistencias {
+    background-color: #7a9b32;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    width: 100px;
+}   
+
 @media (max-width: 600px) {
     .table-wrapper {
         background-color: #e9eaec;
